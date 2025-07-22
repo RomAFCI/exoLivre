@@ -111,7 +111,9 @@ $resultGenre = $stmtGenre->fetchAll(PDO::FETCH_ASSOC);
         <select name="selectEcrivain">';
 
         foreach ($resultEcrivain as $key => $value) {
-            echo "<option value='" . $value["idEcrivain"] . "'>" . $value['nomEcrivain'] . $value['prenomEcrivain'] . $value['nationalitéEcrivain'] . "</option>";
+            // echo "<option value='" . $value["idEcrivain"] . "'>" . $value['nomEcrivain'] . $value['prenomEcrivain'] . $value['nationalitéEcrivain'] . "</option>";
+            // correction pour lisibilité
+            echo "<option value='" . $value["idEcrivain"] . "'>" . $value['nomEcrivain'] . " " . $value['prenomEcrivain'] . " (" . $value['nationalitéEcrivain'] . ")</option>";
         }
         echo '</select>
         <br>
@@ -134,19 +136,35 @@ $resultGenre = $stmtGenre->fetchAll(PDO::FETCH_ASSOC);
     if (isset($_POST['createLivre'])) {
         $nomLivre = $_POST['nomLivre'];
         $anneeLivre = $_POST['anneeLivre'];
-
         $selectEcrivain = $_POST['selectEcrivain'];
         $selectGenre = $_POST['selectGenre'];
 
-        $checkLivre = $_POST["checkLivre"];
+        // $checkLivre = $_POST["checkLivre"];
+        // correction gpt pour le boolean de la checkbox
+        // apparament possible en ternaire
+        // Gestion de la checkbox en if/else
+        if (isset($_POST["checkLivre"])) {
+            $checkLivre = 1;
+        } else {
+            $checkLivre = 0;
+        }
+
+        $sqlAddLivre = "INSERT INTO `livres`(`nomLivre`, `annéeLivre`, `disponible`, `idEcrivain`, `idGenre`) VALUES (:nomLivre, :anneeLivre, :checkLivre, :idEcrivain, :idGenre)";
+        $stmtAddLivre = $pdo->prepare($sqlAddLivre);
 
 
+        // BIN PARAM POUR GUILLEMET ET SECURISER INJECTION SQL
+        $stmtAddLivre->bindParam(':nomLivre', $nomLivre);
+        $stmtAddLivre->bindParam(':anneeLivre', $anneeLivre);
+        $stmtAddLivre->bindParam(':checkLivre', $checkLivre);
+        $stmtAddLivre->bindParam(':idEcrivain', $selectEcrivain);
+        $stmtAddLivre->bindParam(':idGenre', $selectGenre);
 
-        $sql = "INSERT INTO `vehicule`(`immatriculation`, `typeVehicule`, `couleur`) VALUES ('$immatriculation','$type','$color')";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-        
+        $stmtAddLivre->execute();
     }
+
+
+
     // FIN DE L'ENVOI POUR LE LIVRE
     ?>
 
