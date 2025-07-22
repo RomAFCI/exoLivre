@@ -30,16 +30,17 @@ try {
 
 <body>
     <h1>Bibliothèque</h1>
+
     <?php
 
-
-
-    if (!isset($_SESSION['user'])) {
+    if (!isset($_SESSION['utilisateurs'])) {
         echo '<form method="POST">
-        <label>Identifiant</label>
-        <input type="text" name="identifiant">
-        <label>Password</label>
-        <input type="password" name="password">
+        <label>Nom</label>
+        <input type="text" name="nom">
+        <br>
+        <label>Adresse mail</label>
+        <input type="mail" name="mail">
+        <br>
         <input type="submit" name="submitConnection" value="Se connecter">
     </form>
     <a href="?page=createAccount"><p>Créez mon compte</p></a>';
@@ -48,48 +49,39 @@ try {
     <input type="submit" name="deconnexion" value="Deconnexion">
 </form>';
 
-        echo "Bonjour, " . htmlspecialchars($_SESSION['user']['nomUser']) . " " . htmlspecialchars($_SESSION['user']['prenomUser']) . ". Vous êtes connecté.";
-        include 'adminBoard.php';
+        echo "Bonjour, " . htmlspecialchars($_SESSION['utilisateurs']['nomUtilisateur']) . " " . htmlspecialchars($_SESSION['utilisateurs']['prenomUtilisateur']) . ". Vous êtes connecté.";
+        include 'indexadmin.php';
     }
 
+    if (isset($_POST['submitConnection']) && !empty($_POST['nom']) && !empty($_POST['mail'])) {
+        $nom = $_POST['nom'];
+        $mail = $_POST['mail'];
 
-
-
-
-    if (isset($_POST['submitConnection']) && !empty($_POST['identifiant']) && !empty($_POST['password'])) {
-        $id = $_POST['identifiant'];
-        $password = $_POST['password'];
-
-        $sql = "SELECT * FROM `users` WHERE adresseMailUser = '$id'";
+        $sql = "SELECT * FROM `utilisateurs` WHERE emailUtilisateur = '$mail'";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        if (isset($results[0]["emailUtilisateur"])) {
 
-
-        if (isset($results[0]["passwordUser"])) {
-
-            if (password_verify($password, $results[0]['passwordUser'])) {
-                $_SESSION['user'] = [
-                    "idUser" => htmlspecialchars($results[0]['idUser']),
-                    "nomUser" => htmlspecialchars($results[0]['nomUser']),
-                    "prenomUser" => htmlspecialchars($results[0]['prenomUser']),
-                    "ageUser" => htmlspecialchars($results[0]['ageUser']),
-                    "adresseMailUser" => htmlspecialchars($results[0]['adresseMailUser'])
+            if (($mail === $results[0]['emailUtilisateur'])) {
+                $_SESSION['utilisateurs'] = [
+                    "idUtilisateur" => htmlspecialchars($results[0]['idUtilisateur']),
+                    "nomUtilisateur" => htmlspecialchars($results[0]['nomUtilisateur']),
+                    "prenomUtilisateur" => htmlspecialchars($results[0]['prenomUtilisateur']),
+                    "emailUtilisateur" => htmlspecialchars($results[0]['emailUtilisateur'])
                 ];
-                header("Location: logUser.php");
+                header("Location: index.php");
             }
         } else {
-            echo "mail ou mot de passe incorrect";
+            echo "nom ou mail incorrect";
         }
     }
 
     if (isset($_POST['deconnexion'])) {
         session_destroy();
-        header("Location: logUser.php");
+        header("Location: index.php");
     }
-
-    echo '<a href="?page=createAccount"><p>Créez mon compte</p></a>';
 
     if (isset($_GET['page']) && $_GET['page'] == 'createAccount') {
         echo '<form method="POST">
@@ -114,9 +106,6 @@ try {
         $prenomCreate = $_POST['prenomCreate'];
         $ageCreate = $_POST['ageCreate'];
         $mailCreate = $_POST['mailCreate'];
-
-
-
 
         $sqlCreate = "INSERT INTO `utilisateurs`(`nomUtilisateur`, `prenomUtilisateur`, `emailUtilisateur`) 
             VALUES (?,?,?)";
