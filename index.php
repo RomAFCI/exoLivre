@@ -45,26 +45,37 @@ try {
     </form>
     <a href="?page=createAccount"><p>Créez mon compte</p></a>';
     } else {
+        $adminEmail = "admin@mail.com";
+
+echo "Bonjour, " . htmlspecialchars($_SESSION['utilisateurs']['nomUtilisateur']) . " " . htmlspecialchars($_SESSION['utilisateurs']['prenomUtilisateur']);
+
+        if ($_SESSION['utilisateurs']['emailUtilisateur'] == $adminEmail) {
+        echo "Vous êtes connecté en tant qu'ADMIN.";
+        include 'indexadmin.php'; // admin
+    } else {
+        echo "Vous êtes connecté en tant qu'utilisateur.";
+        include 'indexuser.php'; // utilisateur simple
+    }
+
         echo '<form method="POST">
     <input type="submit" name="deconnexion" value="Deconnexion">
 </form>';
 
-        echo "Bonjour, " . htmlspecialchars($_SESSION['utilisateurs']['nomUtilisateur']) . " " . htmlspecialchars($_SESSION['utilisateurs']['prenomUtilisateur']) . ". Vous êtes connecté.";
-        include 'indexadmin.php';
     }
 
     if (isset($_POST['submitConnection']) && !empty($_POST['nom']) && !empty($_POST['mail'])) {
         $nom = $_POST['nom'];
         $mail = $_POST['mail'];
 
-        $sql = "SELECT * FROM `utilisateurs` WHERE emailUtilisateur = '$mail'";
+        $sql = "SELECT * FROM `utilisateurs` WHERE emailUtilisateur = :mail";
         $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':mail', $mail);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if (isset($results[0]["emailUtilisateur"])) {
 
-            if (($mail === $results[0]['emailUtilisateur'])) {
+            if (!empty($results)) {
                 $_SESSION['utilisateurs'] = [
                     "idUtilisateur" => htmlspecialchars($results[0]['idUtilisateur']),
                     "nomUtilisateur" => htmlspecialchars($results[0]['nomUtilisateur']),
