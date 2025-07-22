@@ -29,7 +29,7 @@ try {
 </head>
 
 <body>
-    <h1>Bibliothèque</h1>
+    <h1>Bibliothèque En Ligne</h1>
 
     <?php
 
@@ -50,10 +50,10 @@ try {
 echo "Bonjour, " . htmlspecialchars($_SESSION['utilisateurs']['nomUtilisateur']) . " " . htmlspecialchars($_SESSION['utilisateurs']['prenomUtilisateur']);
 
         if ($_SESSION['utilisateurs']['emailUtilisateur'] == $adminEmail) {
-        echo "Vous êtes connecté en tant qu'ADMIN.";
+        echo " Vous êtes connecté en tant qu'administrateur.";
         include 'indexadmin.php'; // admin
     } else {
-        echo "Vous êtes connecté en tant qu'utilisateur.";
+        echo " Vous êtes connecté en tant qu'utilisateur.";
         include 'indexuser.php'; // utilisateur simple
     }
 
