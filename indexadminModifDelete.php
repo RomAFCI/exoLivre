@@ -102,10 +102,11 @@ if (isset($_POST['envoiLivreUpdate'])) {
     $stmtUpdate->bindParam(':updateDispo', $updateDispo);
     $stmtUpdate->bindParam(':updateEcrivain', $updateEcrivain);
     $stmtUpdate->bindParam(':updateGenre', $updateGenre);
+    $stmtUpdate->bindParam(':idLivre', $idLivre);
 
     $stmtUpdate->execute();
 
-    header("Location: indexadminModifDelete.php");
+    header("Location: index.php?page=viewModif");
 }
 ?>
 
