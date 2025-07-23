@@ -18,6 +18,8 @@ $resultsAllLivre = $stmtAllLivre->fetchAll(PDO::FETCH_ASSOC);
 foreach ($resultsAllLivre as $key => $value) {
 
     $idModifier = $value['idLivre'];
+
+
     
     foreach ($value as $key => $value2) {
         echo htmlspecialchars($key) . " : " . htmlspecialchars($value2);
