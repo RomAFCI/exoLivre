@@ -112,14 +112,3 @@ if (isset($_POST['envoiLivreUpdate'])) {
 
 
 
-<!-- 
-        $sqlUpdate = "INSERT INTO `livres`(`nomLivre`, `annéeLivre`, `disponible`, `idEcrivain`, `idGenre`) VALUES (:nomLivre, :anneeLivre, :checkLivre, :idEcrivain, :idGenre)";
-        $stmtAddLivre = $pdo->prepare($sqlAddLivre);
-
-
-        // BIN PARAM POUR GUILLEMET ET SECURISER INJECTION SQL
-        $stmtAddLivre->bindParam(':nomLivre', $nomLivre);
-        $stmtAddLivre->bindParam(':anneeLivre', $anneeLivre);
-        $stmtAddLivre->bindParam(':checkLivre', $checkLivre);
-        $stmtAddLivre->bindParam(':idEcrivain', $selectEcrivain);
-        $stmtAddLivre->bindParam(':idGenre', $selectGenre); -->
