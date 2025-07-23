@@ -108,6 +108,31 @@ if (isset($_POST['envoiLivreUpdate'])) {
 
     header("Location: index.php?page=viewModif");
 }
+
+
+//    foreach ($resultsAll as $key => $value) {
+//         $idASupprimer = $value['idlivre'];
+//         echo "<form method='POST'>";
+//         echo "<input type='hidden' name='idDelete' value='$idASupprimer'>";
+//         foreach ($value as $key => $value2) {
+//             echo $key . " : " . $value2 . " - ";
+//         }
+//         echo '<a href="?id=' . $idASupprimer . '">Modifier</a>';
+//         echo '<input type="submit" name="supprimer" value="delete"><br>';
+//         echo "</form>";
+//     }
+//     if (isset($_POST['supprimer'])) {
+//         $idToDelete = $_POST['idDelete'];
+//         $sqlDelete = "DELETE FROM `livres` WHERE idlivre = '$idToDelete'";
+//         $stmtDelete = $pdo->prepare($sqlDelete);
+//         $stmtDelete->execute();
+//     }
+
+
+
+
+
+
 ?>
 
 
