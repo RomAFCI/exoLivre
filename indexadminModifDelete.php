@@ -36,16 +36,15 @@ if (isset($_GET['id'])) {
     $stmtId->execute();
     $resultsId = $stmtId->fetchAll(PDO::FETCH_ASSOC);
 
-    // POUR LE SELECT OPTION LES ECRIVAINS ET LES GENRES
-    $sqlEcrivains = "SELECT nomEcrivain FROM ecrivains";
-    $stmtEcrivains = $pdo->prepare($sqlEcrivains);
-    $stmtEcrivains->execute();
-    $ecrivains = $stmtEcrivains->fetchAll(PDO::FETCH_ASSOC);
+    $sqlEcrivain = "SELECT * FROM `ecrivains`";
+    $stmtEcrivain = $pdo->prepare($sqlEcrivain);
+    $stmtEcrivain->execute();
+    $resultEcrivain = $stmtEcrivain->fetchAll(PDO::FETCH_ASSOC);
 
-    $sqlGenres = "SELECT nomGenre FROM genres";
-    $stmtGenres = $pdo->prepare($sqlGenres);
-    $stmtGenres->execute();
-    $genres = $stmtGenres->fetchAll(PDO::FETCH_ASSOC);
+    $sqlGenre = "SELECT * FROM `genres`";
+    $stmtGenre = $pdo->prepare($sqlGenre);
+    $stmtGenre->execute();
+    $resultGenre = $stmtGenre->fetchAll(PDO::FETCH_ASSOC);
 
     echo '<form method="POST">
         <input type="hidden" name="idLivre" value="' . htmlspecialchars($resultsId[0]['idLivre']) . '">
@@ -59,31 +58,67 @@ if (isset($_GET['id'])) {
         <label>Disponible</label>
         <input type="checkbox" name="updateDispo" value="1">
         <br>
-        <label>Ecrivain</label>
-        <input type="text" name="updateidEcrivain" value="' . htmlspecialchars($resultsId[0]['idEcrivain']) . '">
+        <label>Modifier un écrivain</label>
+        <select name="updateEcrivain">';
+
+    foreach ($resultEcrivain as $key => $value) {
+        echo "<option value='" . $value["idEcrivain"] . "'>" . $value['nomEcrivain'] . " " . $value['prenomEcrivain'] . " (" . $value['nationalitéEcrivain'] . ")</option>";
+    }
+    echo '</select>
         <br>
-        <label>Libelle</label>
-        <input type="text" name="updateidGenre" value="' . htmlspecialchars($resultsId[0]['idGenre']) . '">
+        <label>Modifier un genre</label>
+        <select name="updateGenre">';
+
+    foreach ($resultGenre as $key => $value) {
+        echo "<option value='" . $value["idGenre"] . "'>" . $value['libelle'] . "</option>";
+    }
+    echo '</select>
         <br>
         <input type="submit" name="envoiLivreUpdate" value="Mettre à jour les données">
     </form>';
 }
 
-// if (isset($_POST['submitUpdate'])) {
+if (isset($_POST['envoiLivreUpdate'])) {
 
-//     $idUpdate = $_POST['idUpdate'];
-//     $nom = $_POST['updateNom'];
-//     $prenom = $_POST['updatePrenom'];
-//     $age = $_POST['updateAge'];
-//     $adresseMail = $_POST['updateAdresseMail'];
-//     $password = $_POST['updatePassword'];
+    $idLivre = $_POST['idLivre'];
+    $updateNomLivre = $_POST['updateNomLivre'];
+    $updateDate = $_POST['updateDate'];
+    if (isset($_POST["updateDispo"])) {
+        $updateDispo = 1;
+    } else {
+        $updateDispo = 0;
+    }
+    $updateEcrivain = $_POST['updateEcrivain'];
+    $updateGenre = $_POST['updateGenre'];
 
-//     $hashPassword = password_hash('$password', PASSWORD_DEFAULT);
 
-//     $sqlUpdate = "UPDATE `users` SET `nomUser`='$nom',`prenomUser`='$prenom',`ageUser`='$age',`adresseMailUser`='$adresseMail',`passwordUser`='$hashPassword' WHERE idUser='$idUpdate'";
-//     $stmtUpdate = $pdo->prepare($sqlUpdate);
-//     $stmtUpdate->execute();
 
-//     header("Location: indexadminModifDelete.php");
-// }
+    $sqlUpdate = "UPDATE `livres` SET `nomLivre`= :updateNomLivre, `annéeLivre`= :updateDate, `disponible`= :updateDispo, `idEcrivain`= :updateEcrivain, `idGenre`= :updateGenre
+    WHERE idLivre= :idLivre";
+    $stmtUpdate = $pdo->prepare($sqlUpdate);
+
+    $stmtUpdate->bindParam(':updateNomLivre', $updateNomLivre);
+    $stmtUpdate->bindParam(':updateDate', $updateDate);
+    $stmtUpdate->bindParam(':updateDispo', $updateDispo);
+    $stmtUpdate->bindParam(':updateEcrivain', $updateEcrivain);
+    $stmtUpdate->bindParam(':updateGenre', $updateGenre);
+
+    $stmtUpdate->execute();
+
+    header("Location: indexadminModifDelete.php");
+}
 ?>
+
+
+
+<!-- 
+        $sqlUpdate = "INSERT INTO `livres`(`nomLivre`, `annéeLivre`, `disponible`, `idEcrivain`, `idGenre`) VALUES (:nomLivre, :anneeLivre, :checkLivre, :idEcrivain, :idGenre)";
+        $stmtAddLivre = $pdo->prepare($sqlAddLivre);
+
+
+        // BIN PARAM POUR GUILLEMET ET SECURISER INJECTION SQL
+        $stmtAddLivre->bindParam(':nomLivre', $nomLivre);
+        $stmtAddLivre->bindParam(':anneeLivre', $anneeLivre);
+        $stmtAddLivre->bindParam(':checkLivre', $checkLivre);
+        $stmtAddLivre->bindParam(':idEcrivain', $selectEcrivain);
+        $stmtAddLivre->bindParam(':idGenre', $selectGenre); -->
