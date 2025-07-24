@@ -34,7 +34,6 @@ if (isset($_POST['supprimer'])) {
 }
 ?>
 
-
 <?php
 //  FORMULAIRE DE MODIF BOOK
 if (isset($_GET['id'])) {
