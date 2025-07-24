@@ -51,10 +51,10 @@ echo "Bonjour, " . htmlspecialchars($_SESSION['utilisateurs']['nomUtilisateur'])
 
         if ($_SESSION['utilisateurs']['emailUtilisateur'] == $adminEmail) {
         echo " Vous êtes connecté en tant qu'administrateur.";
-        include 'indexadmin.php'; // admin
+        include 'indexAdmin.php'; // admin
     } else {
         echo " Vous êtes connecté en tant qu'utilisateur.";
-        include 'indexuser.php'; // utilisateur simple
+        include 'indexUsers.php'; // utilisateur simple
     }
 
         echo '<form method="POST">

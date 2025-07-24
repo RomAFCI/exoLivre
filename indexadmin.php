@@ -171,14 +171,25 @@ $resultGenre = $stmtGenre->fetchAll(PDO::FETCH_ASSOC);
     <hr>
     <h2>Modification</h2>
     <h3>Modifcation des livres</h3>
-    <a href="?page=viewModif">
+    <a href="?page=viewModifBook">
         <p>Afficher les modifications</p>
     </a>
     <?php
-    if (isset($_GET['page']) && $_GET['page'] == 'viewModif') {
-        include 'indexadminModifDelete.php';
+    if (isset($_GET['page']) && $_GET['page'] == 'viewModifBook') {
+        include 'indexAdminModifDeleteBook.php';
     }
     ?>
+    <hr>
+    <h3>Modifcation des utilisateurs</h3>
+    <a href="?page=viewModifUser">
+        <p>Afficher les modifications</p>
+    </a>
+    <?php
+    if (isset($_GET['page']) && $_GET['page'] == 'viewModifUser') {
+        include 'indexAdminModifDeleteUser.php';
+    }
+    ?>
+
 </body>
 
 </html>

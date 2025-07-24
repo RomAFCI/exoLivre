@@ -19,7 +19,7 @@ foreach ($resultsAllLivre as $key => $value) {
         echo "<br>";
     }
 
-    echo '<a href="?page=viewModif&id=' . $idModifier . '">Modifier</a>';
+    echo '<a href="?page=viewModifBook&id=' . $idModifier . '">Modifier</a>';
     echo '<input type="submit" name="supprimer" value="Supprimer"><br>';
     echo "</form>";
     echo "<br>";
@@ -34,10 +34,9 @@ if (isset($_POST['supprimer'])) {
 }
 ?>
 
-<hr>
 
 <?php
-
+//  FORMULAIRE DE MODIF BOOK
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $sqlId = "SELECT * FROM `livres` WHERE `idLivre` = '$id'";
