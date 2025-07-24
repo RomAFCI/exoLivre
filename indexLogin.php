@@ -54,6 +54,7 @@ echo "Bonjour, " . htmlspecialchars($_SESSION['utilisateurs']['nomUtilisateur'])
         include 'indexAdmin.php'; // admin
     } else {
         echo " Vous êtes connecté en tant qu'utilisateur.";
+        echo "<br>";
         include 'indexUsers.php'; // utilisateur simple
     }
 
