@@ -31,6 +31,7 @@ if (isset($_POST['supprimer'])) {
     $sqlDelete = "DELETE FROM `livres` WHERE idLivre = '$idToDelete'";
     $stmtDelete = $pdo->prepare($sqlDelete);
     $stmtDelete->execute();
+    header("Location: indexLogin.php?page=viewModifBook");
 }
 ?>
 
@@ -111,7 +112,7 @@ if (isset($_POST['envoiLivreUpdate'])) {
 
     $stmtUpdate->execute();
 
-    header("Location: index.php?page=viewModif");
+    header("Location: indexLogin.php?page=viewModifBook");
 }
 
 

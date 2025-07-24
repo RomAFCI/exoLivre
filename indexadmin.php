@@ -167,7 +167,6 @@ $resultGenre = $stmtGenre->fetchAll(PDO::FETCH_ASSOC);
     // FIN DE L'ENVOI POUR LE LIVRE
     ?>
 
-
     <hr>
     <h2>Modification</h2>
     <h3>Modifcation des livres</h3>

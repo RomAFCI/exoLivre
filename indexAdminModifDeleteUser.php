@@ -31,6 +31,7 @@ if (isset($_POST['supprimer'])) {
     $sqlDelete = "DELETE FROM `utilisateurs` WHERE idUtilisateur = '$idToDelete'";
     $stmtDelete = $pdo->prepare($sqlDelete);
     $stmtDelete->execute();
+    header("Location: indexLogin.php?page=viewModifUser");
 }
 ?>
 
@@ -66,22 +67,20 @@ if (isset($_POST['envoiUserUpdate'])) {
     $nomUtilisateur = $_POST['nomUtilisateur'];
     $prenomUtilisateur = $_POST['prenomUtilisateur'];
     $emailUtilisateur = $_POST['emailUtilisateur'];
-    
 
-    $sqlUpdate = "UPDATE `livres` SET `nomLivre`= :updateNomLivre, `annéeLivre`= :updateDate, `disponible`= :updateDispo, `idEcrivain`= :updateEcrivain, `idGenre`= :updateGenre
-    WHERE idLivre= :idLivre";
+
+    $sqlUpdate = "UPDATE `utilisateurs` SET `nomUtilisateur`= :nomUtilisateur, `prenomUtilisateur`= :prenomUtilisateur, `emailUtilisateur`= :emailUtilisateur WHERE idUtilisateur= :idUtilisateur";
     $stmtUpdate = $pdo->prepare($sqlUpdate);
 
-    $stmtUpdate->bindParam(':updateNomLivre', $updateNomLivre);
-    $stmtUpdate->bindParam(':updateDate', $updateDate);
-    $stmtUpdate->bindParam(':updateDispo', $updateDispo);
-    $stmtUpdate->bindParam(':updateEcrivain', $updateEcrivain);
-    $stmtUpdate->bindParam(':updateGenre', $updateGenre);
-    $stmtUpdate->bindParam(':idLivre', $idLivre);
+    $stmtUpdate->bindParam(':nomUtilisateur', $nomUtilisateur);
+    $stmtUpdate->bindParam(':prenomUtilisateur', $prenomUtilisateur);
+    $stmtUpdate->bindParam(':emailUtilisateur', $emailUtilisateur);
+   
+    $stmtUpdate->bindParam(':idUtilisateur', $idUtilisateur);
 
     $stmtUpdate->execute();
 
-    header("Location: index.php?page=viewModif");
+    header("Location: indexLogin.php?page=viewModifUser");
 }
 
 
