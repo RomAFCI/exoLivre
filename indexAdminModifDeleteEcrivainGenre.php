@@ -9,17 +9,17 @@ $resultsAllEcrivain = $stmtAllEcrivain->fetchAll(PDO::FETCH_ASSOC);
 // MODIFICATION DES ECRIVAINS EN BDD
 foreach ($resultsAllEcrivain as $key => $value) {
 
-    $idModifierEcrivain = $value['idEcrivain'];
+    $idModifier = $value['idEcrivain'];
 
     echo "<form method='POST'>";
-    echo "<input type='hidden' name='idDelete' value='$idModifierEcrivain'>";
+    echo "<input type='hidden' name='idDelete' value='$idModifier'>";
 
     foreach ($value as $key => $value2) {
         echo htmlspecialchars($key) . " : " . htmlspecialchars($value2);
         echo "<br>";
     }
 
-    echo '<a href="?page=viewModifEcrivainGenre&id=' . $idModifierEcrivain . '">Modifier</a>';
+    echo '<a href="?page=viewModifEcrivainGenre&id=' . $idModifier . '">Modifier</a>';
     echo '<input type="submit" name="supprimer" value="Supprimer"><br>';
     echo "</form>";
     echo "<br>";
@@ -44,8 +44,8 @@ if (isset($_GET['id'])) {
     $stmtId->execute();
     $resultsId = $stmtId->fetchAll(PDO::FETCH_ASSOC);
 
-
-    echo '<form method="POST">
+    
+        echo '<form method="POST">
         <input type="hidden" name="idEcrivain" value="' . htmlspecialchars($resultsId[0]['idEcrivain']) . '">
         <br>
         <label>Nom</label>
@@ -59,6 +59,7 @@ if (isset($_GET['id'])) {
         <br>
         <input type="submit" name="envoiEcrivainUpdate" value="Mettre à jour les données">
     </form>';
+    
 }
 
 if (isset($_POST['envoiEcrivainUpdate'])) {
@@ -75,7 +76,7 @@ if (isset($_POST['envoiEcrivainUpdate'])) {
     $stmtUpdate->bindParam(':nomEcrivain', $nomEcrivain);
     $stmtUpdate->bindParam(':prenomEcrivain', $prenomEcrivain);
     $stmtUpdate->bindParam(':nationalitéEcrivain', $nationalitéEcrivain);
-   
+
     $stmtUpdate->bindParam(':idEcrivain', $idEcrivain);
 
     $stmtUpdate->execute();
