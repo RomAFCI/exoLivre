@@ -82,7 +82,7 @@ echo "Bonjour, " . htmlspecialchars($_SESSION['utilisateurs']['nomUtilisateur'])
                     "prenomUtilisateur" => htmlspecialchars($results[0]['prenomUtilisateur']),
                     "emailUtilisateur" => htmlspecialchars($results[0]['emailUtilisateur'])
                 ];
-                header("Location: index.php");
+                header("Location: indexLogin.php");
             }
         } else {
             echo "nom ou mail incorrect";
@@ -91,7 +91,7 @@ echo "Bonjour, " . htmlspecialchars($_SESSION['utilisateurs']['nomUtilisateur'])
 
     if (isset($_POST['deconnexion'])) {
         session_destroy();
-        header("Location: index.php");
+        header("Location: indexLogin.php");
     }
 
     if (isset($_GET['page']) && $_GET['page'] == 'createAccount') {
