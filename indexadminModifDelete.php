@@ -6,34 +6,29 @@ $stmtAllLivre->execute();
 $resultsAllLivre = $stmtAllLivre->fetchAll(PDO::FETCH_ASSOC);
 
 
-// $sqlEcrivain = "SELECT * FROM `ecrivains`";
-//      $stmtEcrivain = $pdo->prepare($sqlEcrivain);
-//      $stmtEcrivain->execute();
-//      $resultEcrivain = $stmtEcrivain->fetchAll(PDO::FETCH_ASSOC);
-
-
-
-
 // MODIFICATION DES LIVRES EN BDD
 foreach ($resultsAllLivre as $key => $value) {
 
     $idModifier = $value['idLivre'];
 
+    echo "<form method='POST'>";
+    echo "<input type='hidden' name='idDelete' value='$idModifier'>";
 
-    
     foreach ($value as $key => $value2) {
         echo htmlspecialchars($key) . " : " . htmlspecialchars($value2);
         echo "<br>";
     }
+
     echo '<a href="?page=viewModif&id=' . $idModifier . '">Modifier</a>';
     echo '<input type="submit" name="supprimer" value="Supprimer"><br>';
+    echo "</form>";
     echo "<br>";
     echo "<br>";
 }
 //SUPPRIMER LIVRE EN BDD
 if (isset($_POST['supprimer'])) {
     $idToDelete = $_POST['idDelete'];
-    $sqlDelete = "DELETE FROM `livres` WHERE idLivre = '$idLivre'";
+    $sqlDelete = "DELETE FROM `livres` WHERE idLivre = '$idToDelete'";
     $stmtDelete = $pdo->prepare($sqlDelete);
     $stmtDelete->execute();
 }
@@ -102,11 +97,9 @@ if (isset($_POST['envoiLivreUpdate'])) {
     } else {
         $updateDispo = 0;
     }
+
     $updateEcrivain = $_POST['updateEcrivain'];
     $updateGenre = $_POST['updateGenre'];
-
-
-
     $sqlUpdate = "UPDATE `livres` SET `nomLivre`= :updateNomLivre, `annéeLivre`= :updateDate, `disponible`= :updateDispo, `idEcrivain`= :updateEcrivain, `idGenre`= :updateGenre
     WHERE idLivre= :idLivre";
     $stmtUpdate = $pdo->prepare($sqlUpdate);
@@ -122,5 +115,6 @@ if (isset($_POST['envoiLivreUpdate'])) {
 
     header("Location: index.php?page=viewModif");
 }
+
 
 ?>
