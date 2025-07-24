@@ -39,7 +39,7 @@ if (isset($_POST['supprimer'])) {
 //  FORMULAIRE DE MODIF USERS
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $sqlId = "SELECT * FROM `Utilisateurs` WHERE `idUtilisateur` = '$id'";
+    $sqlId = "SELECT * FROM `utilisateurs` WHERE `idUtilisateur` = '$id'";
     $stmtId = $pdo->prepare($sqlId);
     $stmtId->execute();
     $resultsId = $stmtId->fetchAll(PDO::FETCH_ASSOC);

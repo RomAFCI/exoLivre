@@ -169,6 +169,17 @@ $resultGenre = $stmtGenre->fetchAll(PDO::FETCH_ASSOC);
 
     <hr>
     <h2>Modification</h2>
+    <h3>Modifcation des écrivains et des genres</h3>
+    <a href="?page=viewModifEcrivainGenre">
+        <p>Afficher les modifications</p>
+    </a>
+    <?php
+    if (isset($_GET['page']) && $_GET['page'] == 'viewModifEcrivainGenre') {
+        include 'indexAdminModifDeleteEcrivainGenre.php';
+    }
+    ?>
+
+    <hr>
     <h3>Modifcation des livres</h3>
     <a href="?page=viewModifBook">
         <p>Afficher les modifications</p>
@@ -178,6 +189,7 @@ $resultGenre = $stmtGenre->fetchAll(PDO::FETCH_ASSOC);
         include 'indexAdminModifDeleteBook.php';
     }
     ?>
+
     <hr>
     <h3>Modifcation des utilisateurs</h3>
     <a href="?page=viewModifUser">
