@@ -201,6 +201,3 @@ $resultGenre = $stmtGenre->fetchAll(PDO::FETCH_ASSOC);
     }
     ?>
 
-</body>
-
-</html>
