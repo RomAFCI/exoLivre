@@ -202,7 +202,7 @@ $resultGenre = $stmtGenre->fetchAll(PDO::FETCH_ASSOC);
     ?>
 
 
-// ⚠️ A CORRIGER    
+<!-- // ⚠️ A CORRIGER     -->
  <hr>
 <h2>Historique des emprunts</h2>
 <a href="?page=viewHistorique">
@@ -258,8 +258,4 @@ if (isset($_GET['page']) && $_GET['page'] == 'viewHistorique') {
 
 </html>
 
-
-
-
-    ?>
 
