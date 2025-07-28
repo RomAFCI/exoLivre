@@ -201,3 +201,65 @@ $resultGenre = $stmtGenre->fetchAll(PDO::FETCH_ASSOC);
     }
     ?>
 
+
+// ⚠️ A CORRIGER    
+ <hr>
+<h2>Historique des emprunts</h2>
+<a href="?page=viewHistorique">
+    <p>Afficher l'historique</p>
+</a>
+
+<?php
+if (isset($_GET['page']) && $_GET['page'] == 'viewHistorique') {
+    
+    $sqlHistorique = "
+        SELECT 
+            emprunts.idEmprunt,
+            emprunts.dateEmprunt,
+            emprunts.dateRetour,
+            emprunts.rendu,
+            CONCAT(utilisateurs.prenomUtilisateur, ' ', utilisateurs.nomUtilisateur) AS utilisateur,
+            utilisateurs.emailUtilisateur,
+            livres.nomLivre,
+            CONCAT(ecrivains.prenomEcrivain, ' ', ecrivains.nomEcrivain) AS auteur
+        FROM emprunts
+        INNER JOIN utilisateurs ON emprunts.idUtilisateur = utilisateurs.idUtilisateur
+        INNER JOIN livres ON emprunts.idLivre = livres.idLivre
+        INNER JOIN ecrivains ON livres.idEcrivain = ecrivains.idEcrivain
+        ORDER BY emprunts.dateEmprunt DESC
+    ";
+
+    $stmtHistorique = $pdo->prepare($sqlHistorique);
+    $stmtHistorique->execute();
+    $resultsHistorique = $stmtHistorique->fetchAll(PDO::FETCH_ASSOC);
+
+    echo "<h3>Historique complet des emprunts</h3>";
+
+    foreach ($resultsHistorique as $emprunt) {
+        echo "Utilisateur : " . htmlspecialchars($emprunt['utilisateur']) . " (" . htmlspecialchars($emprunt['emailUtilisateur']) . ")<br>";
+        echo "Livre : " . htmlspecialchars($emprunt['nomLivre']) . "<br>";
+        echo "Auteur : " . htmlspecialchars($emprunt['auteur']) . "<br>";
+        echo "Date d'emprunt : " . htmlspecialchars($emprunt['dateEmprunt']) . "<br>";
+        
+        if ($emprunt['rendu'] == 1) {
+            echo "Statut : <span style='color: green;'>Rendu</span><br>";
+            echo "Date de retour : " . htmlspecialchars($emprunt['dateRetour']) . "<br>";
+        } else {
+            echo "Statut : <span style='color: orange;'>En cours d'emprunt</span><br>";
+        }
+        
+        echo "<hr>";
+    }
+}
+// ⚠️ FIN CORRECTION
+?>
+
+</body>
+
+</html>
+
+
+
+
+    ?>
+
