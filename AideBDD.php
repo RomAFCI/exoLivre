@@ -1,6 +1,7 @@
 <!-- doc user -->
 
 // Traitement de l'emprunt
+<?php
 if (isset($_POST['emprunter'])) {
     $idLivre = $_POST['idLivre'];
     $idUtilisateur = $_SESSION['utilisateurs']['idUtilisateur'];
@@ -82,7 +83,7 @@ echo "<h3>Tous les livres disponibles</h3>";
 
 
 
-<!-- a mettre dans le foreach de result livre -->
+// a mettre dans le foreach de result livre
 
 // Afficher le statut et le bouton d'emprunt
     if ($value['disponible'] == 1) {
@@ -97,7 +98,7 @@ echo "<h3>Tous les livres disponibles</h3>";
     
     echo "<hr>";
 
-
+?>
 
 
     <!-- A METTRE A LA FIN DE INDEX ADMIN -->

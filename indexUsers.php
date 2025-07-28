@@ -26,6 +26,7 @@ foreach ($resultatsAllLivre as $key => $value) {
     echo " Année : " . htmlspecialchars($value['Année :']) . "<br>";
     echo " Auteur : " . htmlspecialchars($value['auteur']) . "<br>";
     echo " Genre : " . htmlspecialchars($value['genre']) . "<br>";
+    echo "<br>";
     
 
 
