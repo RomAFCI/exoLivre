@@ -16,29 +16,26 @@ $stmtAllLivre = $pdo->prepare($sqlAllLivre);
 $stmtAllLivre->execute();
 $resultatsAllLivre = $stmtAllLivre->fetchAll(PDO::FETCH_ASSOC);
 
-// ⚠️ A CORRIGER
-// Traitement de l'emprunt (cld)
+// Traitement de l'emprunt 
 
 if (isset($_POST['emprunter'])) {
     $idLivre = $_POST['idLivre'];
     $idUtilisateur = $_SESSION['utilisateurs']['idUtilisateur'];
     $dateEmprunt = date('Y-m-d');
 
-
-    // Insérer l'emprunt
-    $sqlEmprunt = "INSERT INTO emprunts (idUtilisateur, idLivre, dateEmprunt, dateRetour) VALUES (?, ?, ?, ?)";
+    $sqlEmprunt = "INSERT INTO emprunts (idUtilisateur, idLivre, dateEmprunt, dateRetour) VALUES (?, ?, ?, NULL)";
     $stmtEmprunt = $pdo->prepare($sqlEmprunt);
-    $stmtEmprunt->execute([$idUtilisateur, $idLivre, $dateEmprunt, $dateRetour]);
+    $stmtEmprunt->execute([$idUtilisateur, $idLivre, $dateEmprunt]);
 
-    // Mettre le livre comme non disponible
+    // Livre non disponible
     $sqlUpdate = "UPDATE livres SET disponible = 0 WHERE idLivre = ?";
     $stmtUpdate = $pdo->prepare($sqlUpdate);
     $stmtUpdate->execute([$idLivre]);
 
-    echo "Livre emprunté avec succès ! Date de retour : " . $dateRetour . "<br><br>";
+    echo "Livre emprunté <br><br>";
 }
 
-// Afficher les livres empruntés par l'utilisateur connecté 
+// Afficher les livres empruntés 
 echo "<h3>Mes livres empruntés</h3>";
 
 $idUtilisateur = $_SESSION['utilisateurs']['idUtilisateur'];
@@ -75,7 +72,7 @@ if (isset($_POST['rendre'])) {
     $stmtUpdateLivre = $pdo->prepare($sqlUpdateLivre);
     $stmtUpdateLivre->execute([$idLivre]);
 
-    echo "Livre rendu avec succès !<br><br>";
+    echo "Livre rendu <br><br>";
 }
 
 if (!empty($resultsMesEmprunts)) {
@@ -96,8 +93,6 @@ if (!empty($resultsMesEmprunts)) {
 }
 
 echo "<h3>Tous les livres disponibles</h3>";
-// ⚠️ FIN CORRECTION
-
 
 foreach ($resultatsAllLivre as $key => $value) {
 
@@ -107,21 +102,16 @@ foreach ($resultatsAllLivre as $key => $value) {
     echo " Genre : " . htmlspecialchars($value['genre']) . "<br>";
     echo "<br>";
 
-
-    // ⚠️ A CORRIGER
-    // Afficher le statut et le bouton d'emprunt
+    // BOUTON D'EMPRUNT
     if ($value['disponible'] == 1) {
-        echo "Statut : <span style='color: green;'>Disponible</span><br>";
-        echo "<form method='POST' style='display: inline;'>
+        echo "Disponible<br>";
+        echo "<form method='POST'>
                 <input type='hidden' name='idLivre' value='" . $value['idLivre'] . "'>
-                <input type='submit' name='emprunter' value='Emprunter ce livre'>
+                <input type='submit' name='emprunter' value='Emprunter'>
               </form>";
     } else {
-        echo "Statut : <span style='color: red;'>Non disponible</span><br>";
+        echo "Non disponible<br>";
     }
 
     echo "<hr>";
-    // ⚠️ FIN CORRECTION
-
-
 }
