@@ -201,8 +201,6 @@ $resultGenre = $stmtGenre->fetchAll(PDO::FETCH_ASSOC);
     }
     ?>
 
-
-<!-- // ⚠️ A CORRIGER     -->
  <hr>
 <h2>Historique des emprunts</h2>
 <a href="?page=viewHistorique">
@@ -233,7 +231,7 @@ if (isset($_GET['page']) && $_GET['page'] == 'viewHistorique') {
     $stmtHistorique->execute();
     $resultsHistorique = $stmtHistorique->fetchAll(PDO::FETCH_ASSOC);
 
-    echo "<h3>Historique complet des emprunts</h3>";
+    echo "<h3>Historique des emprunts</h3>";
 
     foreach ($resultsHistorique as $emprunt) {
         echo "Utilisateur : " . htmlspecialchars($emprunt['utilisateur']) . " (" . htmlspecialchars($emprunt['emailUtilisateur']) . ")<br>";
@@ -242,16 +240,15 @@ if (isset($_GET['page']) && $_GET['page'] == 'viewHistorique') {
         echo "Date d'emprunt : " . htmlspecialchars($emprunt['dateEmprunt']) . "<br>";
         
         if ($emprunt['rendu'] == 1) {
-            echo "Statut : <span style='color: green;'>Rendu</span><br>";
+            echo "Rendu <br>";
             echo "Date de retour : " . htmlspecialchars($emprunt['dateRetour']) . "<br>";
         } else {
-            echo "Statut : <span style='color: orange;'>En cours d'emprunt</span><br>";
+            echo "Indisponible <br>";
         }
         
         echo "<hr>";
     }
 }
-// ⚠️ FIN CORRECTION
 ?>
 
 </body>
